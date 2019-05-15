@@ -1,63 +1,47 @@
+import TodoActor.{AddTask, AskViewList, MarkTask, Task, TaskList}
 import akka.actor.Actor
-
 
 class TodoActor extends Actor {
 
-  private var tasks: List[(String, Boolean)] = List()
+  private var tasks: TaskList = List()
 
-
-  /*can change to def method
-  * def toggleTask(index: Int) = {body}*/
-  private def toggleTask = (index: Int) => {
-    val flippedItem = (tasks(index)._1, !tasks(index)._2)
-    if (flippedItem._2) println(flippedItem._1 + " marked as done.")
-    else println(flippedItem._1 + " marked as incomplete.")
+  private def toggleTask(index: Int): TaskList = {
+    val flippedItem: Task = (!tasks(index)._1, tasks(index)._2)
+    if (flippedItem._1) println(s"task '${flippedItem._2}' marked as done.")
+    else println(s"task '${flippedItem._2}' marked as incomplete.")
     tasks.updated(index, flippedItem)
   }
 
-  def receive = {
+  def receive: PartialFunction[Any, Unit] = {
 
-    case "get name" => {
+    case AddTask(task) =>
+      println(s"adding '$task' to ${self.path.name} list")
+      tasks = tasks :+ (false, task)
 
+    case AskViewList =>
+      sender ! tasks
 
-      self.path.name
-    }
+    case MarkTask(taskIndex) =>
+      if (tasks.isEmpty)
+        println(s"list ${self.path.name} has no tasks yet")
+      else if (taskIndex > tasks.length)
+        println(s"[Error] index $taskIndex is out of range!")
+      else if (taskIndex == 0)
+        println(s"[Error] invalid index provided!")
+      else tasks = toggleTask(taskIndex - 1)
 
-    case ("add task", task: String) => {
-      println(s"adding ${task} to ${self.path.name} list")
-      tasks = tasks :+ (task, false)
-    }
-
-    case "view list" => {
-      if (tasks.length == 0) println(s"List ${self.path.name} is empty.")
-      else {
-        println(s"Listing content of ${self.path.name}...")
-        tasks.zipWithIndex.foreach {
-          case (task, index) => {
-            if (task._2) println((index + 1) + " - [X] " + task._1)
-            else println((index + 1) + " - [ ] " + task._1)
-          }
-        }
-      }
-    }
-
-    case ("mark", index: Int) => {
-      if (tasks.length == 0)
-        println(s"[Error] List ${self.path.name} has no tasks yet.")
-      else if (index > tasks.length)
-        println(s"[Error] Index ${index} is out of range.")
-      else if (index == 0)
-        println(s"[Error] Invalid index provided.")
-      else tasks = toggleTask(index - 1)
-    }
-
-    case "hello" => {
-      println(s"hello back at you from ${self.path.name} list")
-    }
-
-    case _ => {
-      println("huh?")
-    }
+    case _ => println("huh?")
 
   }
+}
+
+object TodoActor {
+
+  // A Task is a pair of boolean indicating isDone and a string for task description
+  type Task = (Boolean, String)
+  type TaskList = List[Task]
+
+  case object AskViewList
+  case class AddTask(task: String)
+  case class MarkTask(taskIndex: Int)
 }
