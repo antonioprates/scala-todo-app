@@ -17,3 +17,7 @@
 
 # Apple stuff
 .DS_Store
+
+# output files
+project/target/
+target/
