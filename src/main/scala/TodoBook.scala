@@ -11,8 +11,16 @@ import TodoBook.{ListReference, ContextIndex}
 
 class TodoBook {
 
-  private var lists: ContextIndex = List()
+
   private val context = ActorSystem("TodoBook")
+
+  private val persistentTodoBook = context.actorOf(Props[TodoActor], name = "root")
+
+  private def loadLists(): ContextIndex = {
+    persistentTodoBook ?
+  }
+
+  private var lists: ContextIndex = loadLists()
 
   private def secureName(name: String): String =
     name.trim().replace(' ', '-').toUpperCase()

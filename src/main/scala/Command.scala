@@ -1,6 +1,7 @@
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
+import Todo.{AddTaskCmd, MarkTaskCmd, PrintListCmd}
 import akka.actor.{ActorRef, _}
 import akka.pattern.ask
 import akka.util.Timeout
@@ -8,8 +9,6 @@ import akka.util.Timeout
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.language.postfixOps
-
-import TodoActor.{AddTask, AskViewList, MarkTask, TaskList}
 import TodoBook.ListReference
 
 class Command(val notes: TodoBook) {
@@ -46,8 +45,13 @@ class Command(val notes: TodoBook) {
 
     case ('a', task: String) =>
       selectedList match {
-        case None       => println("[error] No list selected!")
-        case Some(list) => getActor(list) ! AddTask(task)
+        case None => println("[error] No list selected!")
+        case Some(list) =>
+          implicit val timeout: Timeout = Timeout(2 seconds)
+          val future = getActor(list) ? AddTaskCmd(task)
+          val response =
+            Await.result(future, timeout.duration).asInstanceOf[String]
+          println(response)
       }
       true
 
@@ -56,18 +60,11 @@ class Command(val notes: TodoBook) {
         case None => println("[error] No list selected!")
         case Some(list) =>
           implicit val timeout: Timeout = Timeout(2 seconds)
-          val future = getActor(list) ? AskViewList
+          val future = getActor(list) ? PrintListCmd
           val tasks =
-            Await.result(future, timeout.duration).asInstanceOf[TaskList]
+            Await.result(future, timeout.duration).asInstanceOf[String]
           if (tasks.isEmpty) println(s"${getName(list)} list is empty")
-          else {
-            println(s"Printing contents of ${getName(list)}:")
-            tasks.zipWithIndex.foreach {
-              case (task, index) =>
-                if (task._1) println(s"${index + 1} - [X] ${task._2}")
-                else println(s"${index + 1} - [ ] ${task._2}")
-            }
-          }
+          else println(s"Printing contents of ${getName(list)}:\n$tasks")
       }
       true
 
@@ -76,8 +73,13 @@ class Command(val notes: TodoBook) {
         case None => println("[error] Invalid number provided!")
         case Some(index: Int) =>
           selectedList match {
-            case None       => println("[error] No list selected!")
-            case Some(list) => getActor(list) ! MarkTask(index)
+            case None => println("[error] No list selected!")
+            case Some(list) =>
+              implicit val timeout: Timeout = Timeout(2 seconds)
+              val future = getActor(list) ? MarkTaskCmd(index)
+              val response =
+                Await.result(future, timeout.duration).asInstanceOf[String]
+              println(response)
           }
       }
       true

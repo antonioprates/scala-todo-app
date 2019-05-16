@@ -8,3 +8,7 @@ resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/release
 
 libraryDependencies += "com.typesafe.akka" % "akka-actor_2.11" % "2.5.22"
 libraryDependencies += "com.typesafe.akka" %% "akka-persistence" % "2.5.22"
+
+libraryDependencies += "org.iq80.leveldb" % "leveldb" % "0.7"
+libraryDependencies += "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8"
+
