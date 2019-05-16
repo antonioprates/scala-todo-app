@@ -1,14 +1,8 @@
-# Build Status
-[![Build Status](https://travis-ci.org/izmailoff/SmallAkkaProjectExample.png?branch=master)](https://travis-ci.org/izmailoff/SmallAkkaProjectExample)
 
-SmallAkkaProjectExample
+TodoBook Scala demo app
 =======================
 
-Just to show how to setup dependencies and SBT build for a simple Akka project.
-
-It's an answer to this Stackoverflow question:
-
-http://stackoverflow.com/questions/24931902/unresolved-dependencies-error-in-akka
+This project was created just as an experiment to learn how to setup dependencies and SBT build for a simple Akka project.
 
 To run it execute SBT (runner script is provided or use your own SBT executable):
 
@@ -16,6 +10,5 @@ To run it execute SBT (runner script is provided or use your own SBT executable)
     
 Then in SBT shell run:
 
-    ;compile; run
-    
+    run
     
