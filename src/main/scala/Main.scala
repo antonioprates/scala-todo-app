@@ -1,3 +1,6 @@
+/**
+  * by A. Prates - antonioprates@gmail.com, may-2019
+  */
 object Main extends App {
 
   // create a akka context using TodoBook interface
@@ -9,17 +12,18 @@ object Main extends App {
   // print some help information
   println(
     "\nTODOBOOK commands:" +
-      "\ns 'list name' => select a todo list by name" +
-      "\ns (empty)     => lists all available todo lists" +
-      "\na 'task'      => adds a task to the selected list" +
-      "\nl (or list)   => prints the selected list" +
-      "\nm #number     => marks/unmarks a task as done by its number" +
-      "\nc (or clear)  => clears whole selected list" +
-      "\nx (or exit)   => exits app" +
+      "\nl 'list name' => Creates/selects a todo list by name" +
+      "\nl (or ls)     => Lists all available todo lists" +
+      "\na 'task'      => Adds a task to the selected list" +
+      "\np (or print)  => Prints the selected list" +
+      "\nm #number     => Marks/unmarks a task as done by its number" +
+      "\nc (or clear)  => Clears whole selected list" +
+      "\nx (or exit)   => Exits app" +
       "\n")
 
-  // work
-  while (terminalInterface.process()) {}
+  while (terminalInterface.processCommand()) {
+    // keep working
+  }
 
   // gracefully terminate
   Thread.sleep(5000)

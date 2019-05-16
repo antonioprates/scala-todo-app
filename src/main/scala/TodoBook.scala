@@ -1,13 +1,15 @@
+/**
+  * by A. Prates - antonioprates@gmail.com, may-2019
+  */
 import akka.actor.{ActorRef, ActorSystem, Props, Terminated}
 
 import scala.concurrent.Future
 
+import TodoBook.{ListReference, ContextIndex}
+
 // TodoBook stores akka context and actor references and provides simple interface
 
 class TodoBook {
-
-  type ListReference = (String, ActorRef)
-  type ContextIndex = List[ListReference]
 
   private var lists: ContextIndex = List()
   private val context = ActorSystem("TodoBook")
@@ -22,19 +24,27 @@ class TodoBook {
         val list: ListReference =
           (safeName, context.actorOf(Props[TodoActor], name = safeName))
         lists = lists :+ list
-        println(s"a new $safeName todo list was created and is now selected")
+        println(s"New $safeName list was created and is now selected")
         list
       case Some(list) =>
-        println(s"existing $safeName todo list is now selected")
+        println(s"Existing $safeName list is now selected")
         list
     }
   }
 
-  def list(): Unit = {
-    if (lists.isEmpty) println("you don't have any lists yet")
+  def list(selectedList: Option[ListReference]): Unit = {
+    if (lists.isEmpty) println("You don't have any lists yet")
     else {
-      println("available lists:")
-      lists.foreach(list => println(s"=> ${list._1}"))
+      println("Available lists:")
+      selectedList match {
+        case None => lists.foreach(list => println(s"=> ${list._1}"))
+        case Some(selected) =>
+          lists.foreach(list => {
+            if (selected._1 == list._1) println(s"=> ${list._1} *")
+            else println(s"=> ${list._1}")
+          })
+      }
+
     }
   }
 
@@ -43,11 +53,16 @@ class TodoBook {
       case None => println("[unexpected error] list not found!")
       case Some(reference) =>
         context.stop(reference._2)
-        lists = lists.filter(reference => reference._1 != reference._1)
-        println(s"${list._1} todo list was cleared")
+        lists = lists.filter(reference => reference._1 != list._1)
+        println(s"${list._1} list was cleared")
     }
   }
 
   def shutdown: () => Future[Terminated] = () => context.terminate()
 
+}
+
+object TodoBook {
+  type ListReference = (String, ActorRef)
+  type ContextIndex = List[ListReference]
 }
