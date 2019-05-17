@@ -1,26 +1,281 @@
-The server is listening for incoming connections at local:///tmp/bsp52742856312273544/18k2aomd737mo.socket...
-Accepted incoming BSP client connection at local:///tmp/bsp52742856312273544/18k2aomd737mo.socket
+The server is listening for incoming connections at local:///tmp/bsp6317605857581398912/-1lt8mvlrj1ntq.socket...
+Accepted incoming BSP client connection at local:///tmp/bsp6317605857581398912/-1lt8mvlrj1ntq.socket
 request received: build/initialize
 BSP initialization handshake complete.
-antonioprates/.sbt/1.0/plugins/"), "global-plugins")...
-INFO  [info] Done updating.
-INFO  [info] Loading project definition from /home/antonioprates/CodeLab/scala-todo-app/project
-INFO  [info] Updating ProjectRef(uri("file:/home/antonioprates/CodeLab/scala-todo-app/project/"), "scala-todo-app-build")...
-INFO  [info] Done updating.
-INFO  [success] Generated .bloop/scala-todo-app-build.json
-INFO  [success] Total time: 2 s, completed 17-May-2019 10:25:35
-INFO  [info] Updating ProjectRef(uri("file:/home/antonioprates/CodeLab/scala-todo-app/project/"), "scala-todo-app-build")...
-INFO  [info] Done updating.
-INFO  [info] Loading settings for project scala-todo-app from build.sbt ...
-INFO  [info] Set current project to TodoBook (in build file:/home/antonioprates/CodeLab/scala-todo-app/)
-INFO  [info] Set current project to TodoBook (in build file:/home/antonioprates/CodeLab/scala-todo-app/)
-INFO  [info] semanticdb-scalac is enabled
-INFO  [success] Generated .bloop/scala-todo-app.json
-INFO  [success] Generated .bloop/scala-todo-app-test.json
-INFO  [success] Total time: 0 s, completed 17-May-2019 10:25:39
-INFO  sbt exit: 0
-INFO  time: ran 'sbt bloopInstall' in 12s
-INFO  running embedded 'bloop bsp --protocol local --socket /tmp/bsp52742856312273544/18k2aomd737mo.socket'
-INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/antonioprates/.cache/metals/bsp.trace.json
-INFO  time: connected to build server in 2.04s
-INFO  time: indexed workspace in 1.27s
+shutdown request received: build/shutdown
+Client in /home/antonioprates/CodeLab/scala-todo-app/.bloop triggered cancellation. Cancelling tasks...
+The server is listening for incoming connections at local:///tmp/bsp7043460547475531808/-1sjptl7gle6qk.socket...
+The task for 'bsp --protocol local --socket /tmp/bsp6317605857581398912/-1lt8mvlrj1ntq.socket' finished.
+Project scala-todo-app has no analysis and setup.
+Project scala-todo-app-test has no analysis and setup.
+Accepted incoming BSP client connection at local:///tmp/bsp7043460547475531808/-1sjptl7gle6qk.socket
+request received: build/initialize
+BSP initialization handshake complete.
+/tmp/sbt_9f7b643d/scala/tools/nsc/ZincPicklePath.scala:55: error: value entries is not a member of scala.tools.nsc.util.ClassPath[tools.nsc.io.AbstractFile]
+    val newEntries = pickleClassPaths ++ originalClassPath.entries
+                                                           ^
+/tmp/sbt_9f7b643d/scala/tools/nsc/ZincPicklePath.scala:57: error: variable currentClassPath in trait JavaPlatform cannot be accessed in ZincPicklePath.this.ThisPlatform
+    platform.currentClassPath = Some(newClassPath)
+             ^
+/tmp/sbt_9f7b643d/xsbt/PicklerGen.scala:42: error: value javaBinaryNameString is not a member of PicklerGen.this.global.Symbol
+          val javaName = symbol.javaBinaryNameString
+                                ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:5: error: object ClassRepresentation is not a member of package scala.tools.nsc.util
+import scala.tools.nsc.util.ClassRepresentation
+       ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:11: error: not found: type ClassRepresentation
+                                       classRep: ClassRepresentation[AbstractFile]): Unit = {
+                                                 ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:14: error: type mismatch;
+ found   : Any
+ required: scala.tools.nsc.io.AbstractFile
+    (which expands to)  scala.reflect.io.AbstractFile
+          if platform.needCompile(bin, src) && !binaryOnly(owner, classRep.name) =>
+                                  ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:15: error: value path is not a member of Any
+        if (settings.verbose) inform("[symloader] picked up newer source file for " + src.path)
+                                                                                          ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:16: error: type mismatch;
+ found   : Any
+ required: scala.reflect.io.AbstractFile
+        enterToplevelsFromSource(owner, classRep.name, src)
+                                                       ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:18: error: value path is not a member of Any
+        if (settings.verbose) inform("[symloader] no class, picked up source file for " + src.path)
+                                                                                              ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:19: error: type mismatch;
+ found   : Any
+ required: scala.reflect.io.AbstractFile
+        enterToplevelsFromSource(owner, classRep.name, src)
+                                                       ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:22: error: value path is not a member of Any
+        if (bin.path.startsWith(PicklerGen.rootStartId)) {
+                ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:23: error: type mismatch;
+ found   : Any
+ required: tools.nsc.io.AbstractFile
+    (which expands to)  scala.reflect.io.AbstractFile
+          enterClassAndModule(owner, classRep.name, new ZincPickleLoader(bin))
+                                                                         ^
+/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:25: error: type mismatch;
+ found   : Any
+ required: scala.reflect.io.AbstractFile
+          enterClassAndModule(owner, classRep.name, new ClassfileLoader(bin))
+                                                                        ^
+13 errors found
+/tmp/sbt_2dd6d8f1/scala/tools/nsc/ZincPicklePath.scala:55: error: value entries is not a member of scala.tools.nsc.util.ClassPath[tools.nsc.io.AbstractFile]
+    val newEntries = pickleClassPaths ++ originalClassPath.entries
+                                                           ^
+/tmp/sbt_2dd6d8f1/scala/tools/nsc/ZincPicklePath.scala:57: error: variable currentClassPath in trait JavaPlatform cannot be accessed in ZincPicklePath.this.ThisPlatform
+    platform.currentClassPath = Some(newClassPath)
+             ^
+/tmp/sbt_2dd6d8f1/xsbt/PicklerGen.scala:42: error: value javaBinaryNameString is not a member of PicklerGen.this.global.Symbol
+          val javaName = symbol.javaBinaryNameString
+                                ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:5: error: object ClassRepresentation is not a member of package scala.tools.nsc.util
+import scala.tools.nsc.util.ClassRepresentation
+       ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:11: error: not found: type ClassRepresentation
+                                       classRep: ClassRepresentation[AbstractFile]): Unit = {
+                                                 ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:14: error: type mismatch;
+ found   : Any
+ required: scala.tools.nsc.io.AbstractFile
+    (which expands to)  scala.reflect.io.AbstractFile
+          if platform.needCompile(bin, src) && !binaryOnly(owner, classRep.name) =>
+                                  ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:15: error: value path is not a member of Any
+        if (settings.verbose) inform("[symloader] picked up newer source file for " + src.path)
+                                                                                          ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:16: error: type mismatch;
+ found   : Any
+ required: scala.reflect.io.AbstractFile
+        enterToplevelsFromSource(owner, classRep.name, src)
+                                                       ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:18: error: value path is not a member of Any
+        if (settings.verbose) inform("[symloader] no class, picked up source file for " + src.path)
+                                                                                              ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:19: error: type mismatch;
+ found   : Any
+ required: scala.reflect.io.AbstractFile
+        enterToplevelsFromSource(owner, classRep.name, src)
+                                                       ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:22: error: value path is not a member of Any
+        if (bin.path.startsWith(PicklerGen.rootStartId)) {
+                ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:23: error: type mismatch;
+ found   : Any
+ required: tools.nsc.io.AbstractFile
+    (which expands to)  scala.reflect.io.AbstractFile
+          enterClassAndModule(owner, classRep.name, new ZincPickleLoader(bin))
+                                                                         ^
+/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:25: error: type mismatch;
+ found   : Any
+ required: scala.reflect.io.AbstractFile
+          enterClassAndModule(owner, classRep.name, new ClassfileLoader(bin))
+                                                                        ^
+13 errors found
+[0m[31m[E][0m Unhandled error handling request Request(buildTarget/compile,Some({
+[0m[31m[E][0m   "targets" : [
+[0m[31m[E][0m     {
+[0m[31m[E][0m       "uri" : "file:/home/antonioprates/CodeLab/scala-todo-app/?id=scala-todo-app"
+[0m[31m[E][0m     }
+[0m[31m[E][0m   ]
+[0m[31m[E][0m }),String("6"))
+[0m[31m[E][0m sbt.internal.inc.CompileFailed
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler$.handleCompilationError$1(AnalyzingCompiler.scala:439)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler$.$anonfun$compileSources$4(AnalyzingCompiler.scala:454)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler$.$anonfun$compileSources$4$adapted(AnalyzingCompiler.scala:449)
+[0m[31m[E][0m 	at sbt.io.IO$.withTemporaryDirectory(IO.scala:376)
+[0m[31m[E][0m 	at sbt.io.IO$.withTemporaryDirectory(IO.scala:383)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler$.$anonfun$compileSources$2(AnalyzingCompiler.scala:449)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler$.$anonfun$compileSources$2$adapted(AnalyzingCompiler.scala:443)
+[0m[31m[E][0m 	at sbt.io.IO$.withTemporaryDirectory(IO.scala:376)
+[0m[31m[E][0m 	at sbt.io.IO$.withTemporaryDirectory(IO.scala:383)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler$.compileSources(AnalyzingCompiler.scala:443)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler.$anonfun$compileAndInstall$3(ZincComponentCompiler.scala:277)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler.$anonfun$compileAndInstall$3$adapted(ZincComponentCompiler.scala:262)
+[0m[31m[E][0m 	at sbt.io.IO$.withTemporaryDirectory(IO.scala:376)
+[0m[31m[E][0m 	at sbt.io.IO$.withTemporaryDirectory(IO.scala:383)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler.$anonfun$compileAndInstall$2(ZincComponentCompiler.scala:262)
+[0m[31m[E][0m 	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[0m[31m[E][0m 	at sbt.internal.util.BufferedLogger.bufferQuietly(BufferedLogger.scala:106)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler.$anonfun$compileAndInstall$1(ZincComponentCompiler.scala:262)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler.$anonfun$compileAndInstall$1$adapted(ZincComponentCompiler.scala:259)
+[0m[31m[E][0m 	at sbt.io.IO$.withTemporaryDirectory(IO.scala:376)
+[0m[31m[E][0m 	at sbt.io.IO$.withTemporaryDirectory(IO.scala:383)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler.compileAndInstall(ZincComponentCompiler.scala:259)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler.$anonfun$compiledBridgeJar$1(ZincComponentCompiler.scala:225)
+[0m[31m[E][0m 	at sbt.internal.inc.IfMissing$Define.run(IfMissing.scala:19)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.createAndCache$1(ZincComponentManager.scala:46)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.$anonfun$files$3(ZincComponentManager.scala:57)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.getOrElse$1(ZincComponentManager.scala:38)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.$anonfun$files$2(ZincComponentManager.scala:57)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager$$anon$1.call(ZincComponentManager.scala:87)
+[0m[31m[E][0m 	at bloop.BloopComponentsLock$.apply(BloopComponentsLock.scala:9)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.lock(ZincComponentManager.scala:87)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.$anonfun$lockSecondaryCache$1(ZincComponentManager.scala:84)
+[0m[31m[E][0m 	at scala.Option.map(Option.scala:163)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.lockSecondaryCache(ZincComponentManager.scala:82)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.fromSecondary$1(ZincComponentManager.scala:55)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.$anonfun$files$6(ZincComponentManager.scala:61)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.getOrElse$1(ZincComponentManager.scala:38)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.$anonfun$files$5(ZincComponentManager.scala:61)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager$$anon$1.call(ZincComponentManager.scala:87)
+[0m[31m[E][0m 	at bloop.BloopComponentsLock$.apply(BloopComponentsLock.scala:9)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.lock(ZincComponentManager.scala:87)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.lockLocalCache(ZincComponentManager.scala:78)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.files(ZincComponentManager.scala:61)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentManager.file(ZincComponentManager.scala:66)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler.compiledBridgeJar(ZincComponentCompiler.scala:225)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler$ZincCompilerBridgeProvider.compiledBridge(ZincComponentCompiler.scala:83)
+[0m[31m[E][0m 	at sbt.internal.inc.ZincComponentCompiler$ZincCompilerBridgeProvider.fetchCompiledBridge(ZincComponentCompiler.scala:90)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler.loader(AnalyzingCompiler.scala:357)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler.getInterfaceClass(AnalyzingCompiler.scala:375)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler.call(AnalyzingCompiler.scala:342)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler.newCachedCompiler(AnalyzingCompiler.scala:237)
+[0m[31m[E][0m 	at sbt.internal.inc.AnalyzingCompiler.newCachedCompiler(AnalyzingCompiler.scala:224)
+[0m[31m[E][0m 	at bloop.engine.tasks.CompilationTask$.$anonfun$cleanStatePerBuildRun$3(CompilationTask.scala:207)
+[0m[31m[E][0m 	at bloop.engine.tasks.CompilationTask$.$anonfun$cleanStatePerBuildRun$3$adapted(CompilationTask.scala:198)
+[0m[31m[E][0m 	at scala.collection.immutable.Set$Set1.foreach(Set.scala:97)
+[0m[31m[E][0m 	at bloop.engine.tasks.CompilationTask$.cleanStatePerBuildRun(CompilationTask.scala:198)
+[0m[31m[E][0m 	at bloop.engine.tasks.CompilationTask$.$anonfun$compile$11(CompilationTask.scala:153)
+[0m[31m[E][0m 	at monix.eval.Task.$anonfun$map$1(Task.scala:407)
+[0m[31m[E][0m 	at monix.eval.internal.TaskRunLoop$.monix$eval$internal$TaskRunLoop$$loop$1(TaskRunLoop.scala:176)
+[0m[31m[E][0m 	at monix.eval.internal.TaskRunLoop$RestartCallback$1.onSuccess(TaskRunLoop.scala:119)
+[0m[31m[E][0m 	at monix.eval.Callback$Extensions$.monix$eval$Callback$Extensions$$$anonfun$asyncOnSuccess$1(Callback.scala:100)
+[0m[31m[E][0m 	at monix.eval.Callback$Extensions$$anonfun$asyncOnSuccess$extension$1.run(Callback.scala:100)
+[0m[31m[E][0m 	at monix.execution.schedulers.TrampolineExecutionContext.monix$execution$schedulers$TrampolineExecutionContext$$localRunLoop(TrampolineExecutionContext.scala:109)
+[0m[31m[E][0m 	at monix.execution.schedulers.TrampolineExecutionContext.startLoopOptimal(TrampolineExecutionContext.scala:93)
+[0m[31m[E][0m 	at monix.execution.schedulers.TrampolineExecutionContext.execute(TrampolineExecutionContext.scala:78)
+[0m[31m[E][0m 	at monix.execution.schedulers.BatchingScheduler.execute(BatchingScheduler.scala:50)
+[0m[31m[E][0m 	at monix.execution.schedulers.BatchingScheduler.execute$(BatchingScheduler.scala:47)
+[0m[31m[E][0m 	at monix.execution.schedulers.ExecutorScheduler.execute(ExecutorScheduler.scala:36)
+[0m[31m[E][0m 	at monix.execution.schedulers.ExecuteExtensions.executeTrampolined(ExecuteExtensions.scala:86)
+[0m[31m[E][0m 	at monix.execution.schedulers.ExecuteExtensions.executeTrampolined$(ExecuteExtensions.scala:85)
+[0m[31m[E][0m 	at monix.execution.Scheduler$Extensions.executeTrampolined(Scheduler.scala:187)
+[0m[31m[E][0m 	at monix.eval.internal.TaskGatherUnordered$.$anonfun$apply$1(TaskGatherUnordered.scala:37)
+[0m[31m[E][0m 	at monix.eval.internal.TaskGatherUnordered$.$anonfun$apply$1$adapted(TaskGatherUnordered.scala:35)
+[0m[31m[E][0m 	at monix.eval.internal.TaskRunLoop$.executeOnFinish$1(TaskRunLoop.scala:158)
+[0m[31m[E][0m 	at monix.eval.internal.TaskRunLoop$.monix$eval$internal$TaskRunLoop$$loop$1(TaskRunLoop.scala:224)
+[0m[31m[E][0m 	at monix.eval.internal.TaskRunLoop$.startWithCallback(TaskRunLoop.scala:260)
+[0m[31m[E][0m 	at monix.eval.internal.TaskRunLoop$.$anonfun$restartAsync$1(TaskRunLoop.scala:59)
+[0m[31m[E][0m 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+[0m[31m[E][0m 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+[0m[31m[E][0m 	at java.lang.Thread.run(Thread.java:748)
+[0m[31m[E][0m 
+[0m[31m[E][0m Response error: Error(ErrorObject(InternalError,null,None),String("6"))
+[0m[31m[E][0m Unhandled error
+[0m[31m[E][0m java.lang.NullPointerException
+[0m[31m[E][0m 	at io.circe.Printer$PrintingFolder.onString(Printer.scala:272)
+[0m[31m[E][0m 	at io.circe.Printer$PrintingFolder.onString(Printer.scala:256)
+[0m[31m[E][0m 	at io.circe.Json$JString.foldWith(Json.scala:299)
+[0m[31m[E][0m 	at io.circe.JsonObject$LinkedHashMapJsonObject.appendToFolder(JsonObject.scala:352)
+[0m[31m[E][0m 	at io.circe.Printer$PrintingFolder.onObject(Printer.scala:326)
+[0m[31m[E][0m 	at io.circe.Printer$PrintingFolder.onObject(Printer.scala:256)
+[0m[31m[E][0m 	at io.circe.Json$JObject.foldWith(Json.scala:361)
+[0m[31m[E][0m 	at io.circe.JsonObject$MapAndVectorJsonObject.appendToFolder(JsonObject.scala:454)
+[0m[31m[E][0m 	at io.circe.Printer$PrintingFolder.onObject(Printer.scala:326)
+[0m[31m[E][0m 	at io.circe.Printer$PrintingFolder.onObject(Printer.scala:256)
+[0m[31m[E][0m 	at io.circe.Json$JObject.foldWith(Json.scala:361)
+[0m[31m[E][0m 	at io.circe.Printer.pretty(Printer.scala:190)
+[0m[31m[E][0m 	at io.circe.Json.noSpaces(Json.scala:116)
+[0m[31m[E][0m 	at scala.meta.jsonrpc.BaseProtocolMessage$.fromJson(BaseProtocolMessage.scala:38)
+[0m[31m[E][0m 	at scala.meta.jsonrpc.MessageWriter.write(MessageWriter.scala:44)
+[0m[31m[E][0m 	at scala.meta.jsonrpc.LanguageClient.serverRespond(LanguageClient.scala:37)
+[0m[31m[E][0m 	at scala.meta.jsonrpc.LanguageServer.$anonfun$startTask$2(LanguageServer.scala:117)
+[0m[31m[E][0m 	at monix.eval.Task.$anonfun$map$1(Task.scala:407)
+[0m[31m[E][0m 	at monix.eval.internal.TaskRunLoop$.monix$eval$internal$TaskRunLoop$$loop$1(TaskRunLoop.scala:176)
+[0m[31m[E][0m 	at monix.eval.internal.TaskRunLoop$RestartCallback$1.onSuccess(TaskRunLoop.scala:119)
+[0m[31m[E][0m 	at monix.eval.Callback.apply(Callback.scala:45)
+[0m[31m[E][0m 	at monix.eval.internal.TaskFromFuture$.$anonfun$strict$2(TaskFromFuture.scala:49)
+[0m[31m[E][0m 	at monix.eval.internal.TaskFromFuture$.$anonfun$strict$2$adapted(TaskFromFuture.scala:45)
+[0m[31m[E][0m 	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+[0m[31m[E][0m 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+[0m[31m[E][0m 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+[0m[31m[E][0m 	at java.lang.Thread.run(Thread.java:748)
+[0m[31m[E][0m 
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1
+WARN  unsupported Scala 2.11.1

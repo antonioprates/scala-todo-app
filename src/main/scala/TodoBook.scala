@@ -2,17 +2,18 @@
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
 import Todo._
-import akka.actor.{ActorRef, _}
-import akka.pattern.ask
+import TodoBook._
 
-import scala.concurrent.{Await, Future}
-import TodoBook.{ContextIndex, ListReference}
+import akka.actor._
+import akka.pattern.ask
 import akka.util.Timeout
 
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
 // TodoBook stores akka context and actor references and provides simple interface
+// designed to log any feedback directly to Terminal
 
 class TodoBook {
 
@@ -23,10 +24,11 @@ class TodoBook {
 
   private def loadLists(): ContextIndex = {
     implicit val timeout: Timeout = Timeout(5 seconds)
-    val future = persistentTodoBook ? GetPlainListCmd
+    val future = persistentTodoBook ? GetListCmd
     val root =
-      Await.result(future, timeout.duration).asInstanceOf[List[String]]
-    root.map(entry => (entry, context.actorOf(Props[TodoActor], name = entry)))
+      Await.result(future, timeout.duration).asInstanceOf[TaskList]
+    root.map(entry =>
+      (entry._2, context.actorOf(Props[TodoActor], name = entry._2)))
   }
 
   private var lists: ContextIndex = loadLists()
@@ -41,7 +43,7 @@ class TodoBook {
         val list: ListReference =
           (safeName, context.actorOf(Props[TodoActor], name = safeName))
         lists = lists :+ list
-        persistentTodoBook ! AddTaskFFCmd(safeName)
+        persistentTodoBook ! AddTaskCmd(safeName, ack = false)
         println(s"New $safeName list was created and is now selected")
         list
       case Some(list) =>
@@ -62,7 +64,6 @@ class TodoBook {
             else println(s"=> ${list._1}")
           })
       }
-
     }
   }
 
@@ -71,8 +72,6 @@ class TodoBook {
       case None => println("[unexpected error] list not found!")
       case Some(reference) =>
         reference._2 ! ClearFFCmd
-        Thread.sleep(1000)
-        reference._2 ! PoisonPill
         persistentTodoBook ! RemoveTaskFFCmd(reference._1)
         lists = lists.filter(reference => reference._1 != list._1)
         println(s"${list._1} list was cleared")
@@ -80,6 +79,7 @@ class TodoBook {
   }
 
   def save(): Unit = {
+    println("Persisting state snapshots...")
     lists.foreach(list => list._2 ! SaveListFFCmd)
     persistentTodoBook ! SaveListFFCmd
   }
