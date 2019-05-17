@@ -1,7 +1,7 @@
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
-import Todo._
+import actors.Todo._
 import TodoBook._
 
 import akka.actor.ActorRef
