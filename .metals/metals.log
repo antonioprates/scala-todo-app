@@ -1,0 +1,26 @@
+The server is listening for incoming connections at local:///tmp/bsp52742856312273544/18k2aomd737mo.socket...
+Accepted incoming BSP client connection at local:///tmp/bsp52742856312273544/18k2aomd737mo.socket
+request received: build/initialize
+BSP initialization handshake complete.
+antonioprates/.sbt/1.0/plugins/"), "global-plugins")...
+INFO  [info] Done updating.
+INFO  [info] Loading project definition from /home/antonioprates/CodeLab/scala-todo-app/project
+INFO  [info] Updating ProjectRef(uri("file:/home/antonioprates/CodeLab/scala-todo-app/project/"), "scala-todo-app-build")...
+INFO  [info] Done updating.
+INFO  [success] Generated .bloop/scala-todo-app-build.json
+INFO  [success] Total time: 2 s, completed 17-May-2019 10:25:35
+INFO  [info] Updating ProjectRef(uri("file:/home/antonioprates/CodeLab/scala-todo-app/project/"), "scala-todo-app-build")...
+INFO  [info] Done updating.
+INFO  [info] Loading settings for project scala-todo-app from build.sbt ...
+INFO  [info] Set current project to TodoBook (in build file:/home/antonioprates/CodeLab/scala-todo-app/)
+INFO  [info] Set current project to TodoBook (in build file:/home/antonioprates/CodeLab/scala-todo-app/)
+INFO  [info] semanticdb-scalac is enabled
+INFO  [success] Generated .bloop/scala-todo-app.json
+INFO  [success] Generated .bloop/scala-todo-app-test.json
+INFO  [success] Total time: 0 s, completed 17-May-2019 10:25:39
+INFO  sbt exit: 0
+INFO  time: ran 'sbt bloopInstall' in 12s
+INFO  running embedded 'bloop bsp --protocol local --socket /tmp/bsp52742856312273544/18k2aomd737mo.socket'
+INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/antonioprates/.cache/metals/bsp.trace.json
+INFO  time: connected to build server in 2.04s
+INFO  time: indexed workspace in 1.27s
