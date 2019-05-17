@@ -1,7 +1,6 @@
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
-
 import Todo._
 import akka.actor.{ActorRef, _}
 import akka.pattern.ask
@@ -19,7 +18,8 @@ class TodoBook {
 
   private val context = ActorSystem("TodoBook")
 
-  private val persistentTodoBook: ActorRef = context.actorOf(Props[TodoActor], name = "root")
+  private val persistentTodoBook: ActorRef =
+    context.actorOf(Props[TodoActor], name = "root")
 
   private def loadLists(): ContextIndex = {
     implicit val timeout: Timeout = Timeout(5 seconds)

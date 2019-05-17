@@ -42,7 +42,8 @@ object Todo {
     // mutation methods
     def add(task: String): ListState = copy(tasks :+ (false, task))
 
-    def remove(task: String): ListState = copy(tasks.filter(entry => entry._2 != task))
+    def remove(task: String): ListState =
+      copy(tasks.filter(entry => entry._2 != task))
 
     def mark(index: Int): ListState =
       copy(tasks.updated(index, (!tasks(index)._1, tasks(index)._2)))
@@ -63,7 +64,7 @@ object Todo {
     def hasTask(task: String): Boolean =
       tasks.find(t => t._2 == task) match {
         case None => false
-        case _ => true
+        case _    => true
       }
 
   }

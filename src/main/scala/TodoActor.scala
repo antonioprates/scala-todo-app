@@ -1,7 +1,6 @@
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
-
 import Todo._
 import akka.persistence.PersistentActor
 import akka.actor._
@@ -15,24 +14,25 @@ class TodoActor extends PersistentActor {
 
   def updateState(event: TaskEvt): Unit = {
     event match {
-      case AddTaskEvt(task) => state = state.add(task)
-      case MarkTaskEvt(index) => state = state.mark(index)
+      case AddTaskEvt(task)    => state = state.add(task)
+      case MarkTaskEvt(index)  => state = state.mark(index)
       case RemoveTaskEvt(task) => state = state.remove(task)
-      case ClearEvt => state = state.clear()
+      case ClearEvt            => state = state.clear()
     }
     context.system.eventStream.publish(event)
   }
 
   val receiveRecover: Receive = {
-    case event: TaskEvt => updateState(event)
+    case event: TaskEvt                        => updateState(event)
     case SnapshotOffer(_, snapshot: ListState) => state = snapshot
   }
 
   val receiveCommand: Receive = {
 
-    case AddTaskFFCmd(task) => persist(AddTaskEvt(task)) { event =>
-      updateState(event)
-    }
+    case AddTaskFFCmd(task) =>
+      persist(AddTaskEvt(task)) { event =>
+        updateState(event)
+      }
 
     case AddTaskCmd(task) =>
       if (state.hasTask(task)) sender ! "Task already exist on list"
@@ -85,9 +85,10 @@ class TodoActor extends PersistentActor {
         updateState(event)
       }
 
-    case ClearFFCmd => persist(ClearEvt) { event =>
-      updateState(event)
-    }
+    case ClearFFCmd =>
+      persist(ClearEvt) { event =>
+        updateState(event)
+      }
 
     case GetPlainListCmd => sender ! state.fullList.map(entry => entry._2)
 

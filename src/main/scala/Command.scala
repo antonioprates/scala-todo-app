@@ -1,7 +1,6 @@
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
-
 import Todo._
 import akka.actor.{ActorRef, _}
 import akka.pattern.ask
@@ -14,18 +13,19 @@ import TodoBook.ListReference
 
 class Command(val notes: TodoBook) {
 
-  def printHelp(): Unit = println(
-    "\nAvailable commands:" +
-      "\nl 'list name' => Creates/selects a todo list by name" +
-      "\nl (or ls)     => Displays all available todo lists" +
-      "\na 'task'      => Adds a task to the selected list" +
-      "\np (or print)  => Prints selected list contents" +
-      "\nr #number     => Removes a task by its number" +
-      "\nm #number     => Marks/unmarks a task as done" +
-      "\nc (or clear)  => Clears whole selected list" +
-      "\nh (or help)   => Prints this help" +
-      "\nx (or exit)   => Exits app" +
-      "\n")
+  def printHelp(): Unit =
+    println(
+      "\nAvailable commands:" +
+        "\nl 'list name' => Creates/selects a todo list by name" +
+        "\nl (or ls)     => Displays all available todo lists" +
+        "\na 'task'      => Adds a task to the selected list" +
+        "\np (or print)  => Prints selected list contents" +
+        "\nr #number     => Removes a task by its number" +
+        "\nm #number     => Marks/unmarks a task as done" +
+        "\nc (or clear)  => Clears whole selected list" +
+        "\nh (or help)   => Prints this help" +
+        "\nx (or exit)   => Exits app" +
+        "\n")
 
   implicit val timeout: Timeout = Timeout(2 seconds)
 
@@ -35,9 +35,9 @@ class Command(val notes: TodoBook) {
 
   private def getCommand(line: String = getLine): (Char, String) = {
     line.length match {
-      case 0 => (' ', "")
+      case 0     => (' ', "")
       case 1 | 2 => (line(0), "")
-      case _ => (line(0), line.drop(2).trim())
+      case _     => (line(0), line.drop(2).trim())
     }
   }
 
@@ -89,7 +89,6 @@ class Command(val notes: TodoBook) {
           selectedList match {
             case None => println("[error] No list selected!")
             case Some(list) =>
-
               val future = getActor(list) ? MarkTaskCmd(index)
               val response =
                 Await.result(future, timeout.duration).asInstanceOf[String]
