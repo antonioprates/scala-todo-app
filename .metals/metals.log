@@ -1,115 +1,106 @@
-The server is listening for incoming connections at local:///tmp/bsp6317605857581398912/-1lt8mvlrj1ntq.socket...
-Accepted incoming BSP client connection at local:///tmp/bsp6317605857581398912/-1lt8mvlrj1ntq.socket
+The server is listening for incoming connections at local:///tmp/bsp2081108522020982359/-1dmy5tsddetpk.socket...
+Accepted incoming BSP client connection at local:///tmp/bsp2081108522020982359/-1dmy5tsddetpk.socket
 request received: build/initialize
 BSP initialization handshake complete.
-shutdown request received: build/shutdown
-Client in /home/antonioprates/CodeLab/scala-todo-app/.bloop triggered cancellation. Cancelling tasks...
-The server is listening for incoming connections at local:///tmp/bsp7043460547475531808/-1sjptl7gle6qk.socket...
-The task for 'bsp --protocol local --socket /tmp/bsp6317605857581398912/-1lt8mvlrj1ntq.socket' finished.
-Project scala-todo-app has no analysis and setup.
-Project scala-todo-app-test has no analysis and setup.
-Accepted incoming BSP client connection at local:///tmp/bsp7043460547475531808/-1sjptl7gle6qk.socket
-request received: build/initialize
-BSP initialization handshake complete.
-/tmp/sbt_9f7b643d/scala/tools/nsc/ZincPicklePath.scala:55: error: value entries is not a member of scala.tools.nsc.util.ClassPath[tools.nsc.io.AbstractFile]
+/tmp/sbt_95478cc2/scala/tools/nsc/ZincPicklePath.scala:55: error: value entries is not a member of scala.tools.nsc.util.ClassPath[tools.nsc.io.AbstractFile]
     val newEntries = pickleClassPaths ++ originalClassPath.entries
                                                            ^
-/tmp/sbt_9f7b643d/scala/tools/nsc/ZincPicklePath.scala:57: error: variable currentClassPath in trait JavaPlatform cannot be accessed in ZincPicklePath.this.ThisPlatform
+/tmp/sbt_95478cc2/scala/tools/nsc/ZincPicklePath.scala:57: error: variable currentClassPath in trait JavaPlatform cannot be accessed in ZincPicklePath.this.ThisPlatform
     platform.currentClassPath = Some(newClassPath)
              ^
-/tmp/sbt_9f7b643d/xsbt/PicklerGen.scala:42: error: value javaBinaryNameString is not a member of PicklerGen.this.global.Symbol
+/tmp/sbt_95478cc2/xsbt/PicklerGen.scala:42: error: value javaBinaryNameString is not a member of PicklerGen.this.global.Symbol
           val javaName = symbol.javaBinaryNameString
                                 ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:5: error: object ClassRepresentation is not a member of package scala.tools.nsc.util
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:5: error: object ClassRepresentation is not a member of package scala.tools.nsc.util
 import scala.tools.nsc.util.ClassRepresentation
        ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:11: error: not found: type ClassRepresentation
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:11: error: not found: type ClassRepresentation
                                        classRep: ClassRepresentation[AbstractFile]): Unit = {
                                                  ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:14: error: type mismatch;
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:14: error: type mismatch;
  found   : Any
  required: scala.tools.nsc.io.AbstractFile
     (which expands to)  scala.reflect.io.AbstractFile
           if platform.needCompile(bin, src) && !binaryOnly(owner, classRep.name) =>
                                   ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:15: error: value path is not a member of Any
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:15: error: value path is not a member of Any
         if (settings.verbose) inform("[symloader] picked up newer source file for " + src.path)
                                                                                           ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:16: error: type mismatch;
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:16: error: type mismatch;
  found   : Any
  required: scala.reflect.io.AbstractFile
         enterToplevelsFromSource(owner, classRep.name, src)
                                                        ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:18: error: value path is not a member of Any
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:18: error: value path is not a member of Any
         if (settings.verbose) inform("[symloader] no class, picked up source file for " + src.path)
                                                                                               ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:19: error: type mismatch;
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:19: error: type mismatch;
  found   : Any
  required: scala.reflect.io.AbstractFile
         enterToplevelsFromSource(owner, classRep.name, src)
                                                        ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:22: error: value path is not a member of Any
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:22: error: value path is not a member of Any
         if (bin.path.startsWith(PicklerGen.rootStartId)) {
                 ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:23: error: type mismatch;
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:23: error: type mismatch;
  found   : Any
  required: tools.nsc.io.AbstractFile
     (which expands to)  scala.reflect.io.AbstractFile
           enterClassAndModule(owner, classRep.name, new ZincPickleLoader(bin))
                                                                          ^
-/tmp/sbt_9f7b643d/xsbt/ZincSymbolLoaders.scala:25: error: type mismatch;
+/tmp/sbt_95478cc2/xsbt/ZincSymbolLoaders.scala:25: error: type mismatch;
  found   : Any
  required: scala.reflect.io.AbstractFile
           enterClassAndModule(owner, classRep.name, new ClassfileLoader(bin))
                                                                         ^
 13 errors found
-/tmp/sbt_2dd6d8f1/scala/tools/nsc/ZincPicklePath.scala:55: error: value entries is not a member of scala.tools.nsc.util.ClassPath[tools.nsc.io.AbstractFile]
+/tmp/sbt_2a0320ba/scala/tools/nsc/ZincPicklePath.scala:55: error: value entries is not a member of scala.tools.nsc.util.ClassPath[tools.nsc.io.AbstractFile]
     val newEntries = pickleClassPaths ++ originalClassPath.entries
                                                            ^
-/tmp/sbt_2dd6d8f1/scala/tools/nsc/ZincPicklePath.scala:57: error: variable currentClassPath in trait JavaPlatform cannot be accessed in ZincPicklePath.this.ThisPlatform
+/tmp/sbt_2a0320ba/scala/tools/nsc/ZincPicklePath.scala:57: error: variable currentClassPath in trait JavaPlatform cannot be accessed in ZincPicklePath.this.ThisPlatform
     platform.currentClassPath = Some(newClassPath)
              ^
-/tmp/sbt_2dd6d8f1/xsbt/PicklerGen.scala:42: error: value javaBinaryNameString is not a member of PicklerGen.this.global.Symbol
+/tmp/sbt_2a0320ba/xsbt/PicklerGen.scala:42: error: value javaBinaryNameString is not a member of PicklerGen.this.global.Symbol
           val javaName = symbol.javaBinaryNameString
                                 ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:5: error: object ClassRepresentation is not a member of package scala.tools.nsc.util
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:5: error: object ClassRepresentation is not a member of package scala.tools.nsc.util
 import scala.tools.nsc.util.ClassRepresentation
        ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:11: error: not found: type ClassRepresentation
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:11: error: not found: type ClassRepresentation
                                        classRep: ClassRepresentation[AbstractFile]): Unit = {
                                                  ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:14: error: type mismatch;
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:14: error: type mismatch;
  found   : Any
  required: scala.tools.nsc.io.AbstractFile
     (which expands to)  scala.reflect.io.AbstractFile
           if platform.needCompile(bin, src) && !binaryOnly(owner, classRep.name) =>
                                   ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:15: error: value path is not a member of Any
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:15: error: value path is not a member of Any
         if (settings.verbose) inform("[symloader] picked up newer source file for " + src.path)
                                                                                           ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:16: error: type mismatch;
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:16: error: type mismatch;
  found   : Any
  required: scala.reflect.io.AbstractFile
         enterToplevelsFromSource(owner, classRep.name, src)
                                                        ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:18: error: value path is not a member of Any
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:18: error: value path is not a member of Any
         if (settings.verbose) inform("[symloader] no class, picked up source file for " + src.path)
                                                                                               ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:19: error: type mismatch;
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:19: error: type mismatch;
  found   : Any
  required: scala.reflect.io.AbstractFile
         enterToplevelsFromSource(owner, classRep.name, src)
                                                        ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:22: error: value path is not a member of Any
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:22: error: value path is not a member of Any
         if (bin.path.startsWith(PicklerGen.rootStartId)) {
                 ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:23: error: type mismatch;
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:23: error: type mismatch;
  found   : Any
  required: tools.nsc.io.AbstractFile
     (which expands to)  scala.reflect.io.AbstractFile
           enterClassAndModule(owner, classRep.name, new ZincPickleLoader(bin))
                                                                          ^
-/tmp/sbt_2dd6d8f1/xsbt/ZincSymbolLoaders.scala:25: error: type mismatch;
+/tmp/sbt_2a0320ba/xsbt/ZincSymbolLoaders.scala:25: error: type mismatch;
  found   : Any
  required: scala.reflect.io.AbstractFile
           enterClassAndModule(owner, classRep.name, new ClassfileLoader(bin))
@@ -118,7 +109,7 @@ import scala.tools.nsc.util.ClassRepresentation
 [0m[31m[E][0m Unhandled error handling request Request(buildTarget/compile,Some({
 [0m[31m[E][0m   "targets" : [
 [0m[31m[E][0m     {
-[0m[31m[E][0m       "uri" : "file:/home/antonioprates/CodeLab/scala-todo-app/?id=scala-todo-app"
+[0m[31m[E][0m       "uri" : "file:/home/antonioprates/CodeLab/scala-todo-app/?id=scala-todo-app-test"
 [0m[31m[E][0m     }
 [0m[31m[E][0m   ]
 [0m[31m[E][0m }),String("6"))
@@ -235,47 +226,3 @@ import scala.tools.nsc.util.ClassRepresentation
 [0m[31m[E][0m 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 [0m[31m[E][0m 	at java.lang.Thread.run(Thread.java:748)
 [0m[31m[E][0m 
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
-WARN  unsupported Scala 2.11.1
