@@ -3,14 +3,13 @@ package actors
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
+import core.Behaviour._
+import TodoActor._
+
 import akka.actor._
 import akka.persistence._
 
-import TodoActor._
-
 class TodoActor extends PersistentActor {
-
-
 
   override def persistenceId: String = self.path.name
 
@@ -18,10 +17,11 @@ class TodoActor extends PersistentActor {
 
   def updateState(event: TaskEvt): Unit = {
     event match {
-      case AddTaskEvt(task)    => state = addTask(state,task)
-      case MarkTaskEvt(task)   => state = state.mark(task)
-      case RemoveTaskEvt(task) => state = state.remove(task)
-      case ClearEvt            => state = state.clear()
+      case AddTaskEvt(task)  => state = ListState(addTask(state.list, task))
+      case MarkTaskEvt(task) => state = ListState(markTask(state.list, task))
+      case RemoveTaskEvt(task) =>
+        state = ListState(removeTask(state.list, task))
+      case ClearEvt => state = ListState()
     }
   }
 
@@ -41,7 +41,7 @@ class TodoActor extends PersistentActor {
   val receiveCommand: Receive = {
 
     case AddTaskCmd(task, ack) =>
-      if (state.hasTask(task)) {
+      if (hasTask(state.list, task)) {
         if (ack) sender ! TaskExistsErr
       } else
         persistEvent(AddTaskEvt(task)) { _ =>
@@ -50,19 +50,16 @@ class TodoActor extends PersistentActor {
 
     case MarkTaskCmd(task) =>
       persistEvent(MarkTaskEvt(task)) { _ =>
-        sender ! TaskStatusRsp(task, state.isDone(task))
+        sender ! TaskStatusRsp(task, isDone(state.list, task))
       }
 
-    case GetListCmd => sender ! state.fullList
+    case GetListCmd => sender ! state.list
 
     case RemoveTaskFFCmd(task) =>
-      persistEvent(RemoveTaskEvt(task)) { _ =>
-        }
+      persistEvent(RemoveTaskEvt(task)) ()
 
     case ClearFFCmd =>
-      persist(ClearEvt) { event =>
-        updateState(event)
-        context.system.eventStream.publish(event)
+      persistEvent(ClearEvt) { _ =>
         self ! PoisonPill
       }
 
@@ -72,12 +69,8 @@ class TodoActor extends PersistentActor {
 
 }
 
-
 object TodoActor {
-
-  // a Task is a pair of boolean, indicating isDone, and a string, for description
-  type Task = (Boolean, String)
-  type TaskList = List[Task]
+  def props(): Props = Props(new TodoActor())
 
   sealed trait TaskEvt
   case class AddTaskEvt(task: String) extends TaskEvt
@@ -103,41 +96,6 @@ object TodoActor {
   case object InvalidNumberErr extends ErrorMsg
   case class OutOfRangeErr(index: Int, range: Int) extends ErrorMsg
 
-  case class ListState(tasks: TaskList = List()) {
-
-    // mutation methods
-
-    def add(task: String): ListState = copy(tasks :+ (false, task))
-
-    def remove(task: String): ListState =
-      copy(tasks.filterNot(entry => entry._2 == task))
-
-    def mark(task: String): ListState =
-      tasks.find(entry => entry._2 == task) match {
-        case None => copy(tasks)
-        case Some(entry) => {
-          val index = tasks.indexOf(entry)
-          copy(tasks.updated(index, (!tasks(index)._1, tasks(index)._2)))
-        }
-      }
-
-    def clear(): ListState = copy(List())
-
-    // read only methods
-
-    private val blank: Task = (false, "")
-
-    def isDone(task: String): Boolean =
-      tasks.find(entry => entry._2 == task).getOrElse(blank)._1
-
-    def fullList: TaskList = tasks
-
-    def hasTask(task: String): Boolean =
-      tasks.find(t => t._2 == task) match {
-        case None => false
-        case _    => true
-      }
-
-  }
+  case class ListState(list: TaskList = Nil)
 
 }

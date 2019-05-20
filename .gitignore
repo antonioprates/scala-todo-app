@@ -1,8 +1,8 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
 *.iml
 .idea
-.idea/
-.idea_modules/
+.idea/*
+.idea_modules/*
 
 ## File-based project format:
 *.ipr
@@ -13,16 +13,16 @@
 
 # Visual Studio Code IDE configuration
 .vscode
-.vscode/
+.vscode/*
 
 # Apple stuff
 .DS_Store
 
 # output files
-project/target/
-target/
+project/target/*
+target/*
 
 .metals
-.metals/
+.metals/*
 .bloop
 project/.bloop

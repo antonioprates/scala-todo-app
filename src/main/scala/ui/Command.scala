@@ -1,8 +1,12 @@
+package ui
+
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
-import actors.Todo._
-import TodoBook._
+import core.Behaviour._
+import api.TodoBook
+import api.TodoBook.ListReference
+import actors.TodoActor._
 
 import akka.actor.ActorRef
 import akka.pattern.ask
@@ -11,6 +15,8 @@ import akka.util.Timeout
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.language.postfixOps
+
+// Command is a simple UI designed to log any feedback directly to Terminal
 
 class Command(val notes: TodoBook) {
 
@@ -33,6 +39,22 @@ class Command(val notes: TodoBook) {
         "\nh (or help)   => Prints this help" +
         "\nx (or exit)   => Exits app" +
         "\n")
+
+  def list(): Unit = {
+    val lists = notes.list()
+    if (lists.isEmpty) println("You don't have any lists yet")
+    else {
+      println("Available lists:")
+      selectedList match {
+        case None => lists.foreach(list => println(s"=> ${list._1}"))
+        case Some(selected) =>
+          lists.foreach(list => {
+            if (selected._1 == list._1) println(s"=> ${list._1} *")
+            else println(s"=> ${list._1}")
+          })
+      }
+    }
+  }
 
   private def printRsp(response: TaskRsp): Unit = response match {
     case AddTaskRsp(list, task) => println(s"'$task' added to $list list")
@@ -60,7 +82,7 @@ class Command(val notes: TodoBook) {
       }
     }
 
-  private def getList(list: ListReference): TaskList = {
+  private def getTasks(list: ListReference): TaskList = {
     val future = getActor(list) ? GetListCmd
     val tasks = Await.result(future, timeout.duration).asInstanceOf[TaskList]
     tasks
@@ -109,11 +131,16 @@ class Command(val notes: TodoBook) {
   def processCommand(): Boolean = getCommand() match {
 
     case ('l', _) =>
-      notes.list(selectedList)
+      list()
       keepalive
 
     case ('s', name: String) =>
-      selectedList = Some(notes.select(name))
+      val listInfo = notes.select(name)
+      selectedList = Some(listInfo._1)
+      if (listInfo._2)
+        println(s"Existing ${listInfo._1._1} list is now selected")
+      else
+        println(s"New ${listInfo._1._1} list was created and is now selected")
       keepalive
 
     case ('a', task: String) =>
@@ -131,7 +158,7 @@ class Command(val notes: TodoBook) {
       selectedList match {
         case None => printErr(NoListErr)
         case Some(list) =>
-          getList(list) match {
+          getTasks(list) match {
             case tasks: TaskList => printList(getName(list), tasks)
           }
       }
@@ -141,7 +168,7 @@ class Command(val notes: TodoBook) {
       selectedList match {
         case None => printErr(NoListErr)
         case Some(list) =>
-          getList(list) match {
+          getTasks(list) match {
             case tasks: TaskList =>
               if (tasks.nonEmpty) {
                 printList(getName(list), tasks)
@@ -152,7 +179,9 @@ class Command(val notes: TodoBook) {
                     val future = getActor(list) ? MarkTaskCmd(task)
                     val response = Await.result(future, timeout.duration)
                     response match {
-                      case status: TaskStatusRsp => printRsp(status)
+                      case status: TaskStatusRsp =>
+                        printRsp(status)
+                        printList(getName(list), getTasks(list))
                     }
                   case None => // do nothing
                 }
@@ -165,7 +194,7 @@ class Command(val notes: TodoBook) {
       selectedList match {
         case None => printErr(NoListErr)
         case Some(list) =>
-          getList(list) match {
+          getTasks(list) match {
             case tasks: TaskList =>
               if (tasks.nonEmpty) {
                 printList(getName(list), tasks)
@@ -175,6 +204,7 @@ class Command(val notes: TodoBook) {
                     val task = tasks(index)._2
                     getActor(list) ! RemoveTaskFFCmd(task)
                     println(s"'$task' removed from ${getName(list)} list")
+                    printList(getName(list), getTasks(list))
                   case None => // do nothing
                 }
               }
@@ -188,6 +218,7 @@ class Command(val notes: TodoBook) {
         case Some(list) =>
           notes.clear(list)
           selectedList = None
+          println(s"${list._1} list was cleared")
       }
       keepalive
 
@@ -196,8 +227,8 @@ class Command(val notes: TodoBook) {
       true
 
     case ('x', _) | ('e', _) =>
+      println("Persisting state as snapshot...")
       notes.save()
-      println("Exiting TodoBook...")
       !keepalive
 
     case _ =>
