@@ -4,6 +4,6 @@
     <profile name="sbt 1" modules="smallakkaprojectexample_3420,tryakka">
       <option name="postfixOps" value="true" />
     </profile>
-    <profile name="sbt 2" modules="TodoBook" />
+    <profile name="sbt 2" modules="TodoBook,api.TodoBook" />
   </component>
 </project>
