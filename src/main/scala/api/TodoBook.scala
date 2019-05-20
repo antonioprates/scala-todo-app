@@ -3,8 +3,10 @@ package api
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
-import core.Behaviour._
-import api.TodoBook.{ContextIndex, ListReference}
+import core.TaskList
+import core.ListReference
+import core.ContextIndex
+
 import actors.TodoActor
 import actors.TodoActor._
 
@@ -18,9 +20,7 @@ import scala.language.postfixOps
 
 // TodoBook stores akka context and actor references and provides simple interface
 
-class TodoBook(contextName: String) {
-
-  private val context = ActorSystem(contextName)
+class TodoBook(implicit context: ActorSystem) {
 
   private val persistentTodoBook: ActorRef =
     context.actorOf(TodoActor.props(), name = "root")
@@ -66,16 +66,10 @@ class TodoBook(contextName: String) {
   }
 
   def save(): Unit = {
-
     lists.foreach(list => list._2 ! SaveListFFCmd)
     persistentTodoBook ! SaveListFFCmd
   }
 
   def shutdown: () => Future[Terminated] = () => context.terminate()
 
-}
-
-object TodoBook {
-  type ListReference = (String, ActorRef)
-  type ContextIndex = List[ListReference]
 }

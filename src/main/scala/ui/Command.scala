@@ -3,9 +3,9 @@ package ui
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
-import core.Behaviour._
+import core.TaskList
+import core.ListReference
 import api.TodoBook
-import api.TodoBook.ListReference
 import actors.TodoActor._
 
 import akka.actor.ActorRef
@@ -16,7 +16,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
-// Command is a simple UI designed to log any feedback directly to Terminal
+// Command is a simple UI that inputs/outputs directly to/from Terminal console
 
 class Command(val notes: TodoBook) {
 

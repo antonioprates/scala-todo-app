@@ -23,7 +23,11 @@
             "/home/antonioprates/.ivy2/cache/org.iq80.leveldb/leveldb/jars/leveldb-0.7.jar",
             "/home/antonioprates/.ivy2/cache/org.iq80.leveldb/leveldb-api/jars/leveldb-api-0.7.jar",
             "/home/antonioprates/.ivy2/cache/com.google.guava/guava/bundles/guava-16.0.1.jar",
-            "/home/antonioprates/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-all/bundles/leveldbjni-all-1.8.jar"
+            "/home/antonioprates/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-all/bundles/leveldbjni-all-1.8.jar",
+            "/home/antonioprates/.ivy2/cache/org.scalatest/scalatest_2.11/bundles/scalatest_2.11-3.0.5.jar",
+            "/home/antonioprates/.ivy2/cache/org.scalactic/scalactic_2.11/bundles/scalactic_2.11-3.0.5.jar",
+            "/home/antonioprates/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.1.jar",
+            "/home/antonioprates/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.6.jar"
         ],
         "out" : "/home/antonioprates/CodeLab/scala-todo-app/.bloop/scala-todo-app",
         "classesDir" : "/home/antonioprates/CodeLab/scala-todo-app/.bloop/scala-todo-app/scala-2.11/test-classes",
@@ -264,6 +268,70 @@
                             "name" : "leveldbjni-all",
                             "classifier" : "sources",
                             "path" : "/home/antonioprates/.ivy2/cache/org.fusesource.leveldbjni/leveldbjni-all/srcs/leveldbjni-all-1.8-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scalatest",
+                    "name" : "scalatest_2.11",
+                    "version" : "3.0.5",
+                    "artifacts" : [
+                        {
+                            "name" : "scalatest_2.11",
+                            "path" : "/home/antonioprates/.ivy2/cache/org.scalatest/scalatest_2.11/bundles/scalatest_2.11-3.0.5.jar"
+                        },
+                        {
+                            "name" : "scalatest_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/antonioprates/.ivy2/cache/org.scalatest/scalatest_2.11/srcs/scalatest_2.11-3.0.5-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scalactic",
+                    "name" : "scalactic_2.11",
+                    "version" : "3.0.5",
+                    "artifacts" : [
+                        {
+                            "name" : "scalactic_2.11",
+                            "path" : "/home/antonioprates/.ivy2/cache/org.scalactic/scalactic_2.11/bundles/scalactic_2.11-3.0.5.jar"
+                        },
+                        {
+                            "name" : "scalactic_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/antonioprates/.ivy2/cache/org.scalactic/scalactic_2.11/srcs/scalactic_2.11-3.0.5-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang",
+                    "name" : "scala-reflect",
+                    "version" : "2.11.1",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-reflect",
+                            "path" : "/home/antonioprates/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.1.jar"
+                        },
+                        {
+                            "name" : "scala-reflect",
+                            "classifier" : "sources",
+                            "path" : "/home/antonioprates/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.11.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization" : "org.scala-lang.modules",
+                    "name" : "scala-xml_2.11",
+                    "version" : "1.0.6",
+                    "artifacts" : [
+                        {
+                            "name" : "scala-xml_2.11",
+                            "path" : "/home/antonioprates/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.6.jar"
+                        },
+                        {
+                            "name" : "scala-xml_2.11",
+                            "classifier" : "sources",
+                            "path" : "/home/antonioprates/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/srcs/scala-xml_2.11-1.0.6-sources.jar"
                         }
                     ]
                 }

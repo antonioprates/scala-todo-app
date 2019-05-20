@@ -19,10 +19,13 @@
 .DS_Store
 
 # output files
-project/target/*
-target/*
+project/target/
+target/
 
 .metals
-.metals/*
+.metals/
 .bloop
 project/.bloop
+
+# other
+*.log

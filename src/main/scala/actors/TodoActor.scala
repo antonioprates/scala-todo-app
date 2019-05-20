@@ -3,7 +3,8 @@ package actors
 /**
   * by A. Prates - antonioprates@gmail.com, may-2019
   */
-import core.Behaviour._
+import core.TaskList
+import core.TaskBehavior._
 import TodoActor._
 
 import akka.actor._
@@ -56,7 +57,7 @@ class TodoActor extends PersistentActor {
     case GetListCmd => sender ! state.list
 
     case RemoveTaskFFCmd(task) =>
-      persistEvent(RemoveTaskEvt(task)) ()
+      persistEvent(RemoveTaskEvt(task))()
 
     case ClearFFCmd =>
       persistEvent(ClearEvt) { _ =>
