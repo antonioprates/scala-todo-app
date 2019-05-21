@@ -29,15 +29,15 @@ class Command(val notes: TodoBook) {
   def printHelp(): Unit =
     println(
       "\nAvailable commands:" +
-        "\nl (or list)   => Displays all available todo lists" +
-        "\ns 'list name' => Creates/selects a todo list by name" +
-        "\na 'task'      => Adds a task to the selected list" +
-        "\np (or print)  => Prints selected list contents" +
-        "\nr (or remove) => Removes a task by its number" +
-        "\nm (or mark)   => Marks/unmarks a task as done" +
-        "\nc (or clear)  => Clears whole selected list" +
-        "\nh (or help)   => Prints this help" +
-        "\nx (or exit)   => Exits app" +
+        "\nL/l (or list)   => Displays all available todo lists" +
+        "\nS/s 'list name' => Creates/selects a todo list by name" +
+        "\nA/a 'task'      => Adds a task to the selected list" +
+        "\nP/p (or print)  => Prints selected list contents" +
+        "\nR/r (or remove) => Removes a task by its number" +
+        "\nM/m (or mark)   => Marks/unmarks a task as done" +
+        "\nC/c (or clear)  => Clears whole selected list" +
+        "\nH/h (or help)   => Prints this help" +
+        "\nX/x (or exit)   => Exits app" +
         "\n")
 
   def list(): Unit = {
@@ -99,8 +99,8 @@ class Command(val notes: TodoBook) {
   private def getCommand(line: String = getLine): (Char, String) = {
     line.length match {
       case 0     => (' ', "")
-      case 1 | 2 => (line(0), "")
-      case _     => (line(0), line.drop(2).trim())
+      case 1 | 2 => (line.toLowerCase()(0), "")
+      case _     => (line.toLowerCase()(0), line.drop(2).trim())
     }
   }
 
@@ -135,12 +135,12 @@ class Command(val notes: TodoBook) {
       keepalive
 
     case ('s', name: String) =>
-      val listInfo = notes.select(name)
-      selectedList = Some(listInfo._1)
-      if (listInfo._2)
-        println(s"Existing ${listInfo._1._1} list is now selected")
+      val (list, isExisting) = notes.select(name)
+      selectedList = Some(list)
+      if (isExisting)
+        println(s"Existing ${getName(list)} list is now selected")
       else
-        println(s"New ${listInfo._1._1} list was created and is now selected")
+        println(s"New ${getName(list)} list was created and is now selected")
       keepalive
 
     case ('a', task: String) =>
@@ -216,9 +216,14 @@ class Command(val notes: TodoBook) {
       selectedList match {
         case None => printErr(NoListErr)
         case Some(list) =>
-          notes.clear(list)
-          selectedList = None
-          println(s"${list._1} list was cleared")
+          println(s"Do you want to clear ${getName(list)} list (y/n)?")
+          getCommand() match {
+            case ('y', _) =>
+              notes.clear(list)
+              selectedList = None
+              println(s"${getName(list)} list was cleared")
+            case _ => // do nothing
+          }
       }
       keepalive
 
@@ -226,7 +231,7 @@ class Command(val notes: TodoBook) {
       printHelp()
       true
 
-    case ('x', _) | ('e', _) =>
+    case ('x', _) | ('e', _) | ('q', _) =>
       println("Persisting state as snapshot...")
       notes.save()
       !keepalive

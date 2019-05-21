@@ -6,9 +6,9 @@ package actors
 import core.TaskList
 import core.TaskBehavior._
 import TodoActor._
-
 import akka.actor._
 import akka.persistence._
+// import akka.persistence.fsm.PersistentFSM.FSMState
 
 class TodoActor extends PersistentActor {
 
@@ -41,28 +41,30 @@ class TodoActor extends PersistentActor {
 
   val receiveCommand: Receive = {
 
-    case AddTaskCmd(task, ack) =>
-      if (hasTask(state.list, task)) {
-        if (ack) sender ! TaskExistsErr
-      } else
-        persistEvent(AddTaskEvt(task)) { _ =>
-          if (ack) sender ! AddTaskRsp(self.path.name, task)
+   // when(Active) {
+      case AddTaskCmd(task, ack) =>
+        if (hasTask(state.list, task)) {
+          if (ack) sender ! TaskExistsErr
+        } else
+          persistEvent(AddTaskEvt(task)) { _ =>
+            if (ack) sender ! AddTaskRsp(self.path.name, task)
+          }
+
+      case MarkTaskCmd(task) =>
+        persistEvent(MarkTaskEvt(task)) { _ =>
+          sender ! TaskStatusRsp(task, isDone(state.list, task))
         }
 
-    case MarkTaskCmd(task) =>
-      persistEvent(MarkTaskEvt(task)) { _ =>
-        sender ! TaskStatusRsp(task, isDone(state.list, task))
-      }
+      case GetListCmd => sender ! state.list
 
-    case GetListCmd => sender ! state.list
+      case RemoveTaskFFCmd(task) =>
+        persistEvent(RemoveTaskEvt(task))()
 
-    case RemoveTaskFFCmd(task) =>
-      persistEvent(RemoveTaskEvt(task))()
+      case ClearFFCmd =>
+        persistEvent(ClearEvt) { _ =>
+          self ! PoisonPill
+        }
 
-    case ClearFFCmd =>
-      persistEvent(ClearEvt) { _ =>
-        self ! PoisonPill
-      }
 
     case SaveListFFCmd => saveSnapshot(state)
 
@@ -98,5 +100,13 @@ object TodoActor {
   case class OutOfRangeErr(index: Int, range: Int) extends ErrorMsg
 
   case class ListState(list: TaskList = Nil)
+
+//  sealed trait ListState extends FSMState
+//  case object ActiveList extends ListState {
+//    override def identifier: String = "Active"
+//  }
+//  case object ArchivedList extends ListState {
+//    override def identifier: String = "Archived"
+//  }
 
 }
