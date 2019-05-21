@@ -33,8 +33,8 @@ class Command(val notes: TodoBook) {
         "\nS/s 'list name' => Creates/selects a todo list by name" +
         "\nA/a 'task'      => Adds a task to the selected list" +
         "\nP/p (or print)  => Prints selected list contents" +
-        "\nR/r (or remove) => Removes a task by its number" +
-        "\nM/m (or mark)   => Marks/unmarks a task as done" +
+        "\nR/r 'number'    => Removes a task by its number" +
+        "\nM/m 'number'    => Marks/unmarks a task as done" +
         "\nC/c (or clear)  => Clears whole selected list" +
         "\nH/h (or help)   => Prints this help" +
         "\nX/x (or exit)   => Exits app" +
@@ -202,13 +202,15 @@ class Command(val notes: TodoBook) {
       keepalive
 
     case ('a', task: String) =>
-      selectedList match {
-        case None => printErr(NoListErr)
-        case Some(list) =>
-          addTask(list, task) match {
-            case error: ErrorMsg  => printErr(error)
-            case success: TaskRsp => printRsp(success)
-          }
+      if (task.nonEmpty) {
+        selectedList match {
+          case None => printErr(NoListErr)
+          case Some(list) =>
+            addTask(list, task) match {
+              case error: ErrorMsg  => printErr(error)
+              case success: TaskRsp => printRsp(success)
+            }
+        }
       }
       keepalive
 
@@ -236,7 +238,7 @@ class Command(val notes: TodoBook) {
                     print("Enter task number to mark/unmark: ")
                     markTask(list, tasks, getValidNumber(tasks.length))
                 }
-              }
+              } else printList(getName(list), tasks)
           }
       }
       keepalive
@@ -255,8 +257,7 @@ class Command(val notes: TodoBook) {
                     print("Enter task number to remove: ")
                     removeTask(list, tasks, getValidNumber(tasks.length))
                 }
-
-              }
+              } else printList(getName(list), tasks)
           }
       }
       keepalive
