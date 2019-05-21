@@ -7,11 +7,14 @@ import ui.Command
 
 object Main extends App {
 
-  println("\n\nTodoBook: Let's get some stuff done! ;)\n")
+  println("\nTodoBook: Let's get some stuff done! ;)\n")
 
-  implicit val actorSystem = ActorSystem("TodoBook")
+  // fire up the akka ActorSystem (context)
+  implicit val context = ActorSystem("TodoBook")
 
-  // creates a TodoBook API on top of actorSystem
+  // create a TodoBook API on top of actorSystem
+  // note: as TodoBook implements persistence, it
+  // will recreate previous context automatically.
   val notes = new TodoBook
 
   // create UI for TodoBook instance using Command
@@ -23,14 +26,15 @@ object Main extends App {
   // print some help information
   terminalInterface.printHelp()
 
-  // get an process user commands on Terminal
-  while (terminalInterface.processCommand()) {
+  // get and process user commands on Terminal
+  do {
+    print("> ")
     // do stuff while keepalive signal
-  }
+  } while (terminalInterface.processCommand())
 
   // gracefully terminate
   Thread.sleep(5000)
-  notes.shutdown()
+  context.terminate()
 
   println("Goodbye :D")
 

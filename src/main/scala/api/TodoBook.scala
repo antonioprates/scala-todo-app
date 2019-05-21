@@ -9,16 +9,17 @@ import core.ContextIndex
 
 import actors.TodoActor
 import actors.TodoActor._
+import actors.TodoPersistentFSM
 
 import akka.actor._
 import akka.pattern.ask
 import akka.util.Timeout
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Await
 import scala.language.postfixOps
 
-// TodoBook stores akka context and actor references and provides simple interface
+// TodoBook operates akka context and actor references providing a basic API
 
 class TodoBook(implicit context: ActorSystem) {
 
@@ -31,7 +32,7 @@ class TodoBook(implicit context: ActorSystem) {
     val root =
       Await.result(future, timeout.duration).asInstanceOf[TaskList]
     root.map(entry =>
-      (entry._2, context.actorOf(TodoActor.props(), name = entry._2)))
+      (entry._2, context.actorOf(TodoPersistentFSM.props(), name = entry._2)))
   }
 
   private var lists: ContextIndex = loadLists()
@@ -44,7 +45,8 @@ class TodoBook(implicit context: ActorSystem) {
     lists.find(reference => reference._1 == safeName) match {
       case None =>
         val list: ListReference =
-          (safeName, context.actorOf(TodoActor.props(), name = safeName))
+          (safeName,
+           context.actorOf(TodoPersistentFSM.props(), name = safeName))
         lists = lists :+ list
         persistentTodoBook ! AddTaskCmd(safeName, ack = false) // FF mode
         (list, false) // isExisting = false
@@ -59,6 +61,8 @@ class TodoBook(implicit context: ActorSystem) {
     lists.find(reference => reference._1 == list._1) match {
       case Some(reference) =>
         reference._2 ! ClearFFCmd
+        Thread.sleep(1000)
+        reference._2 ! PoisonPill
         persistentTodoBook ! RemoveTaskFFCmd(reference._1)
         lists = lists.filter(reference => reference._1 != list._1)
       case None => // do nothing
@@ -69,7 +73,5 @@ class TodoBook(implicit context: ActorSystem) {
     lists.foreach(list => list._2 ! SaveListFFCmd)
     persistentTodoBook ! SaveListFFCmd
   }
-
-  def shutdown: () => Future[Terminated] = () => context.terminate()
 
 }

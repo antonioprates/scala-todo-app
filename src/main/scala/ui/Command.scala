@@ -46,13 +46,26 @@ class Command(val notes: TodoBook) {
     else {
       println("Available lists:")
       selectedList match {
-        case None => lists.foreach(list => println(s"=> ${list._1}"))
+        case None =>
+          lists.foreach(list => println(s"=> ${list._1} [${getStatus(list)}]"))
         case Some(selected) =>
           lists.foreach(list => {
-            if (selected._1 == list._1) println(s"=> ${list._1} *")
-            else println(s"=> ${list._1}")
+            if (selected._1 == list._1)
+              println(s"=> ${list._1} [${getStatus(list)}] *")
+            else println(s"=> ${list._1} [${getStatus(list)}]")
           })
       }
+    }
+  }
+
+  private def getStatus(list: ListReference): String = {
+    val future = getActor(list) ? GetTodoStateCmd
+    val response = Await.result(future, timeout.duration)
+    response match {
+      case EmptyListRsp(_)   => "Empty"
+      case ActiveStateRsp(_) => "Active"
+      case AllDoneRsp(_)     => "Complete"
+      case _                 => "Unknown"
     }
   }
 
@@ -61,6 +74,10 @@ class Command(val notes: TodoBook) {
     case TaskStatusRsp(task, isDone) =>
       if (isDone) println(s"Task '$task' marked as done")
       else println(s"Task '$task' marked as incomplete")
+    case AllDoneRsp(list) =>
+      println(
+        s"$list list was completed and thereby cannot be changed (but you can clear it)")
+    case _ => println("Unknown response")
   }
 
   private def printErr(error: ErrorMsg): Unit = error match {
@@ -68,7 +85,11 @@ class Command(val notes: TodoBook) {
     case TaskExistsErr    => println("[error] Task already exists on list")
     case InvalidNumberErr => println("[error] Invalid number provided!")
     case OutOfRangeErr(index, range) =>
-      println(s"[error] Index $index is out of range, try between 1 and $range")
+      println(
+        s"[error] Index $index is out of range, try between 1 and $range!")
+    case EmptyListErr =>
+      println("[error] Cannot perform action on an empty list!")
+    case _ => println("[error] Unknown!")
   }
 
   private def printList(list: String, tasks: TaskList): Unit =
@@ -94,6 +115,40 @@ class Command(val notes: TodoBook) {
     response
   }
 
+  private def markTask(list: ListReference,
+                       tasks: TaskList,
+                       number: Option[Int]): Unit =
+    number match {
+      case Some(index) =>
+        val task = tasks(index)._2
+        val future = getActor(list) ? MarkTaskCmd(task)
+        val response = Await.result(future, timeout.duration)
+        response match {
+          case status: TaskStatusRsp =>
+            printRsp(status)
+            printList(getName(list), getTasks(list))
+          case status: AllDoneRsp => printRsp(status)
+        }
+      case None => // do nothing
+    }
+
+  private def removeTask(list: ListReference,
+                         tasks: TaskList,
+                         number: Option[Int]): Unit = number match {
+    case Some(index) =>
+      val task = tasks(index)._2
+      getActor(list) ! RemoveTaskFFCmd(task)
+      val updatedTasks = getTasks(list)
+      if (tasks.length == updatedTasks.length) {
+        print(s"'$task' could not be removed, probably ")
+        printRsp(AllDoneRsp(getName(list)))
+      } else {
+        println(s"'$task' removed from ${getName(list)} list")
+        printList(getName(list), updatedTasks)
+      }
+    case None => // do nothing
+  }
+
   private def getLine: String = scala.io.StdIn.readLine().trim()
 
   private def getCommand(line: String = getLine): (Char, String) = {
@@ -111,8 +166,9 @@ class Command(val notes: TodoBook) {
     }
   }
 
-  private def getValidNumber(range: Int): Option[Int] = {
-    toInt(getLine) match {
+  private def getValidNumber(range: Int,
+                             strNumber: String = getLine): Option[Int] = {
+    toInt(strNumber) match {
       case None =>
         printErr(InvalidNumberErr)
         None
@@ -135,12 +191,14 @@ class Command(val notes: TodoBook) {
       keepalive
 
     case ('s', name: String) =>
-      val (list, isExisting) = notes.select(name)
-      selectedList = Some(list)
-      if (isExisting)
-        println(s"Existing ${getName(list)} list is now selected")
-      else
-        println(s"New ${getName(list)} list was created and is now selected")
+      if (name.nonEmpty) {
+        val (list, isExisting) = notes.select(name)
+        selectedList = Some(list)
+        if (isExisting)
+          println(s"Existing ${getName(list)} list is now selected")
+        else
+          println(s"New ${getName(list)} list was created and is now selected")
+      }
       keepalive
 
     case ('a', task: String) =>
@@ -164,49 +222,40 @@ class Command(val notes: TodoBook) {
       }
       keepalive
 
-    case ('m', _: String) =>
+    case ('m', strNumber: String) =>
       selectedList match {
         case None => printErr(NoListErr)
         case Some(list) =>
           getTasks(list) match {
             case tasks: TaskList =>
               if (tasks.nonEmpty) {
-                printList(getName(list), tasks)
-                print("Enter task number to mark/unmark: ")
-                getValidNumber(tasks.length) match {
-                  case Some(index) =>
-                    val task = tasks(index)._2
-                    val future = getActor(list) ? MarkTaskCmd(task)
-                    val response = Await.result(future, timeout.duration)
-                    response match {
-                      case status: TaskStatusRsp =>
-                        printRsp(status)
-                        printList(getName(list), getTasks(list))
-                    }
-                  case None => // do nothing
+                getValidNumber(tasks.length, strNumber) match {
+                  case Some(index) => markTask(list, tasks, Some(index))
+                  case None =>
+                    printList(getName(list), tasks)
+                    print("Enter task number to mark/unmark: ")
+                    markTask(list, tasks, getValidNumber(tasks.length))
                 }
               }
           }
       }
       keepalive
 
-    case ('r', _) =>
+    case ('r', strNumber: String) =>
       selectedList match {
         case None => printErr(NoListErr)
         case Some(list) =>
           getTasks(list) match {
             case tasks: TaskList =>
               if (tasks.nonEmpty) {
-                printList(getName(list), tasks)
-                print("Enter task number to remove: ")
-                getValidNumber(tasks.length) match {
-                  case Some(index) =>
-                    val task = tasks(index)._2
-                    getActor(list) ! RemoveTaskFFCmd(task)
-                    println(s"'$task' removed from ${getName(list)} list")
-                    printList(getName(list), getTasks(list))
-                  case None => // do nothing
+                getValidNumber(tasks.length, strNumber) match {
+                  case Some(index) => removeTask(list, tasks, Some(index))
+                  case None =>
+                    printList(getName(list), tasks)
+                    print("Enter task number to remove: ")
+                    removeTask(list, tasks, getValidNumber(tasks.length))
                 }
+
               }
           }
       }
@@ -229,7 +278,7 @@ class Command(val notes: TodoBook) {
 
     case ('h', _) =>
       printHelp()
-      true
+      keepalive
 
     case ('x', _) | ('e', _) | ('q', _) =>
       println("Persisting state as snapshot...")

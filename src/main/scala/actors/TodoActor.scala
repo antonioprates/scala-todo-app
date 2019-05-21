@@ -6,9 +6,9 @@ package actors
 import core.TaskList
 import core.TaskBehavior._
 import TodoActor._
+
 import akka.actor._
 import akka.persistence._
-// import akka.persistence.fsm.PersistentFSM.FSMState
 
 class TodoActor extends PersistentActor {
 
@@ -41,38 +41,40 @@ class TodoActor extends PersistentActor {
 
   val receiveCommand: Receive = {
 
-   // when(Active) {
-      case AddTaskCmd(task, ack) =>
-        if (hasTask(state.list, task)) {
-          if (ack) sender ! TaskExistsErr
-        } else
-          persistEvent(AddTaskEvt(task)) { _ =>
-            if (ack) sender ! AddTaskRsp(self.path.name, task)
-          }
-
-      case MarkTaskCmd(task) =>
-        persistEvent(MarkTaskEvt(task)) { _ =>
-          sender ! TaskStatusRsp(task, isDone(state.list, task))
+    case AddTaskCmd(task, ack) =>
+      if (hasTask(state.list, task)) {
+        if (ack) sender ! TaskExistsErr
+      } else
+        persistEvent(AddTaskEvt(task)) { _ =>
+          if (ack) sender ! AddTaskRsp(self.path.name, task)
         }
 
-      case GetListCmd => sender ! state.list
+    case RemoveTaskFFCmd(task) =>
+      persistEvent(RemoveTaskEvt(task))()
 
-      case RemoveTaskFFCmd(task) =>
-        persistEvent(RemoveTaskEvt(task))()
+    case MarkTaskCmd(task) =>
+      persistEvent(MarkTaskEvt(task)) { _ =>
+        sender ! TaskStatusRsp(task, isDone(state.list, task))
+      }
 
-      case ClearFFCmd =>
-        persistEvent(ClearEvt) { _ =>
-          self ! PoisonPill
-        }
+    case GetListCmd => sender ! state.list
 
+    case ClearFFCmd =>
+      persistEvent(ClearEvt)()
 
     case SaveListFFCmd => saveSnapshot(state)
+
+    case GetTodoStateCmd =>
+      if (hasDoneAll(state.list)) sender ! AllDoneRsp(self.path.name)
+      else if (state.list.nonEmpty) sender ! ActiveStateRsp(self.path.name)
+      else sender ! EmptyListRsp
 
   }
 
 }
 
 object TodoActor {
+
   def props(): Props = Props(new TodoActor())
 
   sealed trait TaskEvt
@@ -88,25 +90,22 @@ object TodoActor {
   case object SaveListFFCmd extends TaskCmd
   case class RemoveTaskFFCmd(task: String) extends TaskCmd
   case object ClearFFCmd extends TaskCmd
+  case object GetTodoStateCmd extends TaskCmd
 
   sealed trait TaskRsp
   case class AddTaskRsp(list: String, task: String) extends TaskRsp
   case class TaskStatusRsp(task: String, isDone: Boolean) extends TaskRsp
+  case class EmptyListRsp(list: String) extends TaskRsp
+  case class ActiveStateRsp(list: String) extends TaskRsp
+  case class AllDoneRsp(list: String) extends TaskRsp // applied only by TodoPersistentFSM
 
   sealed trait ErrorMsg
   case object NoListErr extends ErrorMsg
+  case object EmptyListErr extends ErrorMsg
   case object TaskExistsErr extends ErrorMsg
   case object InvalidNumberErr extends ErrorMsg
   case class OutOfRangeErr(index: Int, range: Int) extends ErrorMsg
 
   case class ListState(list: TaskList = Nil)
-
-//  sealed trait ListState extends FSMState
-//  case object ActiveList extends ListState {
-//    override def identifier: String = "Active"
-//  }
-//  case object ArchivedList extends ListState {
-//    override def identifier: String = "Archived"
-//  }
 
 }
