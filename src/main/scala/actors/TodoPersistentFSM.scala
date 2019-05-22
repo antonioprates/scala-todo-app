@@ -47,7 +47,8 @@ class TodoPersistentFSM(implicit val domainEventClassTag: ClassTag[TaskEvt])
 
     case Event(AddTaskCmd(task, ack), state) => {
       if (hasTask(state.list, task)) {
-        stay.replying(TaskExistsErr)
+        if (ack) stay.replying(TaskExistsErr)
+        else stay
       } else {
         val res = stay.applying(AddTaskEvt(task))
         if (ack) res.replying(AddTaskRsp(self.path.name, task))
