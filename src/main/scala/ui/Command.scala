@@ -216,11 +216,8 @@ class Command(val notes: TodoBook) {
 
     case ('p', _) =>
       selectedList match {
-        case None => printErr(NoListErr)
-        case Some(list) =>
-          getTasks(list) match {
-            case tasks: TaskList => printList(getName(list), tasks)
-          }
+        case None       => printErr(NoListErr)
+        case Some(list) => printList(getName(list), getTasks(list))
       }
       keepalive
 
