@@ -56,8 +56,7 @@ object TaskBehavior {
     _getTask(list, task) match {
       case None => list
       case Some(entry) => {
-        val index = list.indexOf(entry)
-        list.updated(index, (!list(index)._1, list(index)._2))
+        list.updated(list.indexOf(entry), (_isNotDone(entry), task))
       }
     }
 
