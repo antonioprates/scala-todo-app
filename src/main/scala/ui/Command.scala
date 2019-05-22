@@ -50,7 +50,7 @@ class Command(val notes: TodoBook) {
           lists.foreach(list => println(s"=> ${list._1} [${getStatus(list)}]"))
         case Some(selected) =>
           lists.foreach(list => {
-            if (selected._1 == list._1)
+            if (list == selected)
               println(s"=> ${list._1} [${getStatus(list)}] *")
             else println(s"=> ${list._1} [${getStatus(list)}]")
           })
