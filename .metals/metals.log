@@ -1,9 +1,0 @@
-The server is listening for incoming connections at local:///tmp/bsp3367130378312116695/-1glctgu41myp9.socket...
-Accepted incoming BSP client connection at local:///tmp/bsp3367130378312116695/-1glctgu41myp9.socket
-request received: build/initialize
-BSP initialization handshake complete.
-shutdown request received: build/shutdown
-Client in /home/antonioprates/CodeLab/scala-todo-app/.bloop triggered cancellation. Cancelling tasks...
-
-INFO  time: indexed workspace in 0.63s
-INFO  shutting down Metals
